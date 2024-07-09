@@ -6,3 +6,4 @@ pluginManagement {
 
 rootProject.name = "kotlin-swing"
 include(":swing")
+include(":demo")
