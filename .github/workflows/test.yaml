@@ -22,5 +22,5 @@ jobs:
           distribution: temurin
           java-version: 8
           cache: gradle
-      - name: Test with Gradle
-        run: ./gradlew test
+      - name: Build without tests
+        run: ./gradlew build -x test

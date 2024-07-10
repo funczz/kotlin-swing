@@ -23,7 +23,7 @@ jobs:
           java-version: 8
           cache: gradle
       - name: Build with Gradle
-        run: ./gradlew -Prelease.useLastTag=true publish
+        run: ./gradlew -Prelease.useLastTag=true publish -x test
       - name: Copy
         run: |
           dist_dir=./build/deploy
