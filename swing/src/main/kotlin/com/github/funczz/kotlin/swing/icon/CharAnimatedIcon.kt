@@ -4,6 +4,7 @@ import java.awt.*
 import java.util.*
 import javax.swing.Icon
 import javax.swing.JLabel
+import javax.swing.UIManager
 
 class CharAnimatedIcon(
 
@@ -11,9 +12,9 @@ class CharAnimatedIcon(
 
     repeat: Int = 5,
 
-    private val color: Color = Color.BLACK,
+    private val color: Color = UIManager.getColor("Label.foreground"),
 
-    private val font: Font = JLabel().font,
+    private val font: Font = UIManager.getFont("Label.font"),
 
     val size: Dimension = run {
         val fontMetrics = JLabel().getFontMetrics(font)
