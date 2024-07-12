@@ -6,10 +6,7 @@ import com.github.funczz.kotlin.swing.util.Gravity
 import com.github.funczz.kotlin.swing.util.getFontMetricsStringBounds
 import com.github.funczz.kotlin.swing.util.getOwner
 import demo.AbstractGridBagJPanel
-import java.awt.Color
-import java.awt.Dimension
-import java.awt.FlowLayout
-import java.awt.GridBagConstraints
+import java.awt.*
 import javax.swing.*
 import javax.swing.border.EtchedBorder
 import kotlin.math.ceil
@@ -65,41 +62,50 @@ class ToastPanel : AbstractGridBagJPanel() {
     }
 
     private val jTextField = JTextArea().also {
+        it.text = "hello world."
+    }
+
+    private val jScrollPane = JScrollPane(jTextField).also {
         val dimension = Dimension(200, it.preferredSize.height * 5)
         it.preferredSize = dimension
-        it.minimumSize = dimension
     }
 
     private val jButton = JButton("通知").also {
         it.addActionListener { _ ->
             val text = jTextField.text
             if (text.isBlank()) return@addActionListener
-            val owner = it.getOwner()
-            val toast = Toast.makeText(
-                owner = owner,
+
+            Toast(
+                owner = it.getOwner(),
                 text = jTextField.text,
                 duration = Toast.LENGTH_SHORT,
-                background = Color.GREEN,
-                gravity = gravity
-            )
-            toast.offsetX = offsetX
-            toast.offsetY = offsetY
-            toast.show()
+                gravity = gravity,
+                offsetX = offsetX,
+                offsetY = offsetY,
+                font = Font(Toast.DEFAULT_FONT.fontName, Font.PLAIN, font.size * 2),
+                //foreground = Color.WHITE,
+                //background = Color.BLUE,
+                windowRadius = 15.0,
+                widthPadding = 10,
+                heightPadding = 10,
+            ).show()
         }
     }
 
     init {
         addComponent(
-            component = jTextField,
+            component = jScrollPane,
             gridx = 0,
             gridy = 0,
-            fill = GridBagConstraints.HORIZONTAL,
+            fill = GridBagConstraints.BOTH,
             weightx = 1.0,
+            weighty = 1.0,
         )
         addComponent(
             component = jButton,
             gridx = 1,
             gridy = 0,
+            fill = GridBagConstraints.NONE,
             anchor = GridBagConstraints.EAST,
         )
         addComponent(
@@ -107,9 +113,8 @@ class ToastPanel : AbstractGridBagJPanel() {
             gridx = 0,
             gridy = 1,
             gridwidth = 2,
-            fill = GridBagConstraints.BOTH,
+            fill = GridBagConstraints.HORIZONTAL,
             weightx = 1.0,
-            weighty = 0.5,
         )
         addComponent(
             component = offsetFieldPanel,
@@ -120,11 +125,10 @@ class ToastPanel : AbstractGridBagJPanel() {
             weightx = 1.0,
         )
         addComponent(
-            component = Box.createVerticalStrut(jTextField.preferredSize.height * 2),
+            component = Box.createVerticalStrut(gravityButtonPanel.preferredSize.height),
             gridx = 0,
             gridy = 3,
-            fill = GridBagConstraints.VERTICAL,
-            weighty = 0.5,
+            fill = GridBagConstraints.HORIZONTAL,
         )
     }
 
